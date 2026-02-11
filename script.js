@@ -34,11 +34,78 @@ const rankInputPicker = $("rank-input-picker");
 const rankMinLabel = $("rank-min-label");
 const rankMaxLabel = $("rank-max-label");
 
+// CSV line parser that handles quoted fields with commas
+function parseCSVLine(line) {
+  const fields = [];
+  let current = "";
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (inQuotes) {
+      if (ch === '"') inQuotes = false;
+      else current += ch;
+    } else if (ch === '"') {
+      inQuotes = true;
+    } else if (ch === ',') {
+      fields.push(current.trim());
+      current = "";
+    } else {
+      current += ch;
+    }
+  }
+  fields.push(current.trim());
+  return fields;
+}
+
+// Process JoSAA CSV into college arrays for JEE Advanced and JEE Main
+function processCSV(csvText) {
+  const lines = csvText.split("\n");
+  const jeeAdvanced = [];
+  const jeeMain = [];
+
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+    const fields = parseCSVLine(line);
+    if (fields.length < 8) continue;
+
+    const round = fields[0];
+    const institute = fields[1];
+    const program = fields[2];
+    const quota = fields[3];
+    const seatType = fields[4];
+    const gender = fields[5];
+    const closingRank = parseInt(fields[7]);
+
+    if (round !== "5" || quota !== "AI" || gender !== "Gender-Neutral") continue;
+    if (isNaN(closingRank)) continue;
+
+    const branch = program.indexOf("(") !== -1
+      ? program.substring(0, program.indexOf("(")).trim()
+      : program.trim();
+
+    const entry = { name: institute, branch: branch, cutoffRank: closingRank, category: seatType };
+
+    if (institute.includes("Indian Institute") && institute.includes("of Technology")) {
+      jeeAdvanced.push(entry);
+    } else {
+      jeeMain.push(entry);
+    }
+  }
+
+  return { jeeAdvanced, jeeMain };
+}
+
 // Load data
-fetch("data/cutoffs.json")
-  .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
-  .then((json) => {
+Promise.all([
+  fetch("data/cutoffs.json").then((r) => { if (!r.ok) throw new Error(); return r.json(); }),
+  fetch("data/josaa_all_rounds.csv").then((r) => { if (!r.ok) throw new Error(); return r.text(); }),
+])
+  .then(([json, csvText]) => {
     data = json.exams;
+    const csv = processCSV(csvText);
+    data["JEE Advanced"].colleges = csv.jeeAdvanced;
+    data["JEE Main"].colleges = csv.jeeMain;
     Object.keys(data).forEach((name) => {
       const o = document.createElement("option");
       o.value = name;
