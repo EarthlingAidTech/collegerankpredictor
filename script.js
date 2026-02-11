@@ -167,6 +167,10 @@ function setMode(m) {
 function populateFilters(colleges) {
   // Category
   categorySelect.innerHTML = '<option value="">Select category</option>';
+  const allCatOpt = document.createElement("option");
+  allCatOpt.value = "__all__";
+  allCatOpt.textContent = "All Categories";
+  categorySelect.appendChild(allCatOpt);
   const cats = [...new Set(colleges.map((c) => c.category))].sort();
   cats.forEach((cat) => {
     const o = document.createElement("option");
@@ -265,7 +269,7 @@ function predict() {
   }
 
   metaExam.textContent = examName;
-  metaCategory.textContent = category;
+  metaCategory.textContent = category === "__all__" ? "All Categories" : category;
 
   renderColleges(matchRank);
 
