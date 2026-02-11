@@ -633,6 +633,121 @@ footer {
   z-index: 1;
 }
 
+/* ===== LEAD MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 22, 18, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  animation: fadeIn 0.25s ease;
+}
+.modal-overlay.hidden { display: none !important; }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem 1.75rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: var(--shadow-lg);
+  animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.3rem;
+}
+.modal-sub {
+  font-size: 0.88rem;
+  color: var(--text-2);
+  margin-bottom: 1.25rem;
+}
+
+.modal-field {
+  margin-bottom: 0.85rem;
+}
+.modal-field label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.35rem;
+}
+.modal-field .required {
+  color: var(--coral);
+}
+.modal-field input[type="text"],
+.modal-field input[type="email"],
+.modal-field input[type="tel"] {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.modal-field input:focus {
+  outline: none;
+  border-color: var(--coral);
+  box-shadow: 0 0 0 3px rgba(255,107,74,0.12);
+}
+.modal-field input.input-error {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(220,74,74,0.10);
+}
+
+.lead-error {
+  color: var(--red);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.modal-submit {
+  width: 100%;
+  padding: 0.8rem 1.5rem;
+  background: var(--coral);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.modal-submit:hover {
+  background: #e85a3a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255,107,74,0.3);
+}
+.modal-submit:active {
+  transform: translateY(0);
+}
+
 /* ===== RESPONSIVE ===== */
 
 /* Show cards on mobile, table on desktop */

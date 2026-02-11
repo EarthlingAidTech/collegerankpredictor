@@ -157,6 +157,67 @@
     <p>Data shown is approximate and based on past trends. Always verify with official counselling results.</p>
   </footer>
 
+  <!-- Lead capture modal -->
+  <div id="lead-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <h2 class="modal-title">Almost there!</h2>
+      <p class="modal-sub">Fill in your details to view your college matches.</p>
+      <form id="lead-form" novalidate>
+        <div class="modal-field">
+          <label for="lead-name">Name <span class="required">*</span></label>
+          <input type="text" id="lead-name" placeholder="Your full name" required>
+        </div>
+        <div class="modal-field">
+          <label for="lead-email">Email</label>
+          <input type="email" id="lead-email" placeholder="you@example.com">
+        </div>
+        <div class="modal-field">
+          <label for="lead-phone">Phone <span class="required">*</span></label>
+          <input type="tel" id="lead-phone" placeholder="10-digit mobile number" required>
+        </div>
+        <div class="modal-field">
+          <label for="lead-state">State <span class="required">*</span></label>
+          <div class="select-wrap">
+            <select id="lead-state" required>
+              <option value="">Select your state</option>
+              <option>Andhra Pradesh</option>
+              <option>Arunachal Pradesh</option>
+              <option>Assam</option>
+              <option>Bihar</option>
+              <option>Chhattisgarh</option>
+              <option>Delhi</option>
+              <option>Goa</option>
+              <option>Gujarat</option>
+              <option>Haryana</option>
+              <option>Himachal Pradesh</option>
+              <option>Jharkhand</option>
+              <option>Karnataka</option>
+              <option>Kerala</option>
+              <option>Madhya Pradesh</option>
+              <option>Maharashtra</option>
+              <option>Manipur</option>
+              <option>Meghalaya</option>
+              <option>Mizoram</option>
+              <option>Nagaland</option>
+              <option>Odisha</option>
+              <option>Punjab</option>
+              <option>Rajasthan</option>
+              <option>Sikkim</option>
+              <option>Tamil Nadu</option>
+              <option>Telangana</option>
+              <option>Tripura</option>
+              <option>Uttar Pradesh</option>
+              <option>Uttarakhand</option>
+              <option>West Bengal</option>
+            </select>
+          </div>
+        </div>
+        <div id="lead-error" class="lead-error hidden"></div>
+        <button type="submit" class="modal-submit">Show My Colleges</button>
+      </form>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>

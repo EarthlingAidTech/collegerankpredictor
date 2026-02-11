@@ -212,8 +212,69 @@ function updateBtn() {
   predictBtn.disabled = !(filtersOk && inputOk);
 }
 
+// Lead capture modal
+const leadModal = $("lead-modal");
+const leadForm = $("lead-form");
+const leadError = $("lead-error");
+const leadName = $("lead-name");
+const leadEmail = $("lead-email");
+const leadPhone = $("lead-phone");
+const leadState = $("lead-state");
+
+function isLeadCaptured() {
+  return localStorage.getItem("cp_lead_captured") === "1";
+}
+
+leadForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  // Clear previous errors
+  leadError.classList.add("hidden");
+  leadName.classList.remove("input-error");
+  leadPhone.classList.remove("input-error");
+  leadState.classList.remove("input-error");
+
+  const name = leadName.value.trim();
+  const phone = leadPhone.value.trim();
+  const state = leadState.value;
+  const errors = [];
+
+  if (!name) errors.push("Name is required");
+  if (!phone || !/^\d{10}$/.test(phone)) errors.push("Valid 10-digit phone number is required");
+  if (!state) errors.push("State is required");
+
+  if (errors.length) {
+    leadError.textContent = errors[0];
+    leadError.classList.remove("hidden");
+    if (!name) leadName.classList.add("input-error");
+    if (!phone || !/^\d{10}$/.test(phone)) leadPhone.classList.add("input-error");
+    if (!state) leadState.classList.add("input-error");
+    return;
+  }
+
+  // Save to localStorage
+  localStorage.setItem("cp_lead_captured", "1");
+  localStorage.setItem("cp_lead_name", name);
+  localStorage.setItem("cp_lead_email", leadEmail.value.trim());
+  localStorage.setItem("cp_lead_phone", phone);
+  localStorage.setItem("cp_lead_state", state);
+
+  leadModal.classList.add("hidden");
+  predict();
+});
+
+// Close modal on overlay click (outside the card)
+leadModal.addEventListener("click", (e) => {
+  if (e.target === leadModal) leadModal.classList.add("hidden");
+});
+
 // Predict
-predictBtn.addEventListener("click", predict);
+predictBtn.addEventListener("click", () => {
+  if (!isLeadCaptured()) {
+    leadModal.classList.remove("hidden");
+    return;
+  }
+  predict();
+});
 
 // State for slider re-renders
 let currentExamData = null;
