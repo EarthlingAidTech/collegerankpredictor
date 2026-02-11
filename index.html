@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CollegePredict — Find Your Dream College</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo-mark">CP</div>
+      <div>
+        <div class="logo-text">CollegePredict</div>
+        <p class="tagline">Your rank. Your colleges. Sorted.</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="hero-text">
+      <h1>Which colleges can <em>you</em> get into?</h1>
+      <p>Pick your exam, enter your marks or rank, and we'll show every college within your reach.</p>
+    </section>
+
+    <!-- Input Form -->
+    <section class="input-card">
+
+      <!-- Row 1: Exam -->
+      <div class="field">
+        <label for="exam">Exam</label>
+        <div class="select-wrap">
+          <select id="exam">
+            <option value="">Pick your exam</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Row 2: Toggle — Marks or Rank -->
+      <div class="mode-toggle" id="mode-toggle" style="display:none">
+        <button class="mode-btn active" data-mode="marks" id="mode-marks-btn">I have my marks</button>
+        <button class="mode-btn" data-mode="rank" id="mode-rank-btn">I know my rank</button>
+      </div>
+
+      <!-- Marks input -->
+      <div class="field" id="marks-field" style="display:none">
+        <label for="marks">
+          Your Score
+          <span id="total-marks" class="marks-hint"></span>
+        </label>
+        <input type="number" id="marks" min="0" placeholder="Enter your marks">
+      </div>
+
+      <!-- Rank input -->
+      <div class="field" id="rank-field" style="display:none">
+        <label for="rank-input">Your Rank (AIR)</label>
+        <input type="number" id="rank-input" min="1" placeholder="Enter your All India Rank">
+      </div>
+
+      <!-- Filters row -->
+      <div class="filter-row" id="filter-row" style="display:none">
+        <div class="field">
+          <label for="category">Category</label>
+          <div class="select-wrap">
+            <select id="category">
+              <option value="">Select category</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="branch">Branch</label>
+          <div class="select-wrap">
+            <select id="branch">
+              <option value="">Select branch</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <button id="predict-btn" style="display:none" disabled>
+        Find My Colleges
+        <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </section>
+
+    <!-- Results -->
+    <section id="results" class="results hidden">
+
+      <!-- Rank banner -->
+      <div class="rank-banner">
+        <div class="rank-left">
+          <div class="rank-emoji">&#127942;</div>
+          <div>
+            <div class="rank-title" id="rank-title">Your Estimated Rank</div>
+            <div id="rank-value" class="rank-number"></div>
+            <div id="rank-sub" class="rank-sub"></div>
+          </div>
+        </div>
+        <div class="rank-tags">
+          <span class="tag" id="meta-exam"></span>
+          <span class="tag" id="meta-input"></span>
+          <span class="tag" id="meta-category"></span>
+        </div>
+      </div>
+
+      <!-- Rank picker (marks mode only) -->
+      <div id="rank-picker" class="rank-picker hidden">
+        <label for="rank-slider">Choose a rank in this range:</label>
+        <div class="slider-row">
+          <span id="rank-min-label" class="range-label"></span>
+          <input type="range" id="rank-slider" class="rank-slider">
+          <span id="rank-max-label" class="range-label"></span>
+        </div>
+        <input type="number" id="rank-input-picker" class="rank-number-input" min="1">
+      </div>
+
+      <!-- Results heading -->
+      <div class="results-bar">
+        <h2 id="results-heading"></h2>
+        <span id="results-count" class="count-pill"></span>
+      </div>
+
+      <!-- No results -->
+      <div id="no-results" class="empty-state hidden">
+        <div class="empty-emoji">&#128533;</div>
+        <p class="empty-main">No colleges matched</p>
+        <p class="empty-sub">Try a different branch or check your input</p>
+      </div>
+
+      <!-- College cards (mobile) + table (desktop) -->
+      <div id="college-list" class="college-list hidden"></div>
+
+      <table id="college-table" class="college-table hidden">
+        <thead>
+          <tr>
+            <th class="th-num">#</th>
+            <th>College</th>
+            <th>Branch</th>
+            <th class="th-cutoff">Cutoff Rank</th>
+            <th class="th-chance">Chance</th>
+          </tr>
+        </thead>
+        <tbody id="college-tbody"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>Data shown is approximate and based on past trends. Always verify with official counselling results.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
